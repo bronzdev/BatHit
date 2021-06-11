@@ -1,0 +1,284 @@
+{
+  "ShopItems": [
+    {
+      "id": "0Ball",
+      "row": 0,
+      "itemType": "Ball",
+      "currencyType": "Gems",
+      "value": 0
+    },
+    {
+      "id": "1Ball",
+      "row": 1,
+      "itemType": "Ball",
+      "currencyType": "Gems",
+      "value": 100
+    },
+    {
+      "id": "2Ball",
+      "row": 2,
+      "itemType": "Ball",
+      "currencyType": "Gems",
+      "value": 250
+    },
+    {
+      "id": "3Ball",
+      "row": 3,
+      "itemType": "Ball",
+      "currencyType": "Gems",
+      "value": 250
+    },
+    {
+      "id": "4Ball",
+      "row": 4,
+      "itemType": "Ball",
+      "currencyType": "Gems",
+      "value": 750
+    },
+    {
+      "id": "5Ball",
+      "row": 5,
+      "itemType": "Ball",
+      "currencyType": "Gems",
+      "value": 750
+    },
+    {
+      "id": "6Ball",
+      "row": 6,
+      "itemType": "Ball",
+      "currencyType": "Gems",
+      "value": 1500
+    },
+    {
+      "id": "7Ball",
+      "row": 7,
+      "itemType": "Ball",
+      "currencyType": "Gems",
+      "value": 1500
+    },
+    {
+      "id": "8Ball",
+      "row": 8,
+      "itemType": "Ball",
+      "currencyType": "Gems",
+      "value": 3000
+    },
+    {
+      "id": "9Ball",
+      "row": 9,
+      "itemType": "Ball",
+      "currencyType": "Gems",
+      "value": 3000
+    },
+    {
+      "id": "10Ball",
+      "row": 10,
+      "itemType": "Ball",
+      "currencyType": "Gems",
+      "value": 5000
+    },
+    {
+      "id": "11Ball",
+      "row": 11,
+      "itemType": "Ball",
+      "currencyType": "Gems",
+      "value": 10000
+    },
+    {
+      "id": "12Ball",
+      "row": 12,
+      "itemType": "Ball",
+      "currencyType": "Ads",
+      "value": 4
+    },
+    {
+      "id": "13Ball",
+      "row": 13,
+      "itemType": "Ball",
+      "currencyType": "Ads",
+      "value": 6
+    },
+    {
+      "id": "14Ball",
+      "row": 14,
+      "itemType": "Ball",
+      "currencyType": "Ads",
+      "value": 8
+    },
+    {
+      "id": "15Ball",
+      "row": 15,
+      "itemType": "Ball",
+      "currencyType": "Ads",
+      "value": 12
+    },
+    {
+      "id": "0Floor",
+      "row": 0,
+      "itemType": "Floor",
+      "currencyType": "Gems",
+      "value": 0
+    },
+    {
+      "id": "1Floor",
+      "row": 1,
+      "itemType": "Floor",
+      "currencyType": "Gems",
+      "value": 750
+    },
+    {
+      "id": "2Floor",
+      "row": 2,
+      "itemType": "Floor",
+      "currencyType": "Gems",
+      "value": 1500
+    },
+    {
+      "id": "3Floor",
+      "row": 3,
+      "itemType": "Floor",
+      "currencyType": "Gems",
+      "value": 3000
+    },
+    {
+      "id": "4Floor",
+      "row": 4,
+      "itemType": "Floor",
+      "currencyType": "Gems",
+      "value": 5000
+    },
+    {
+      "id": "5Floor",
+      "row": 5,
+      "itemType": "Floor",
+      "currencyType": "Gems",
+      "value": 10000
+    },
+    {
+      "id": "6Floor",
+      "row": 6,
+      "itemType": "Floor",
+      "currencyType": "Ads",
+      "value": 8
+    },
+    {
+      "id": "7Floor",
+      "row": 7,
+      "itemType": "Floor",
+      "currencyType": "Ads",
+      "value": 8
+    },
+    {
+      "id": "8Floor",
+      "row": 8,
+      "itemType": "Floor",
+      "currencyType": "Ads",
+      "value": 12
+    },
+    {
+      "id": "9Floor",
+      "row": 9,
+      "itemType": "Floor",
+      "currencyType": "Ads",
+      "value": 16
+    },
+    {
+      "id": "10Floor",
+      "row": 10,
+      "itemType": "Floor",
+      "currencyType": "Ads",
+      "value": 24
+    },
+    {
+      "id": "11Floor",
+      "row": 11,
+      "itemType": "Floor",
+      "currencyType": "Ads",
+      "value": 24
+    },
+    {
+      "id": "0Background",
+      "row": 0,
+      "itemType": "Background",
+      "currencyType": "Gems",
+      "value": 0
+    },
+    {
+      "id": "1Background",
+      "row": 1,
+      "itemType": "Background",
+      "currencyType": "Gems",
+      "value": 750
+    },
+    {
+      "id": "2Background",
+      "row": 2,
+      "itemType": "Background",
+      "currencyType": "Gems",
+      "value": 1500
+    },
+    {
+      "id": "3Background",
+      "row": 3,
+      "itemType": "Background",
+      "currencyType": "Gems",
+      "value": 3000
+    },
+    {
+      "id": "4Background",
+      "row": 4,
+      "itemType": "Background",
+      "currencyType": "Gems",
+      "value": 5000
+    },
+    {
+      "id": "5Background",
+      "row": 5,
+      "itemType": "Background",
+      "currencyType": "Gems",
+      "value": 10000
+    },
+    {
+      "id": "6Background",
+      "row": 6,
+      "itemType": "Background",
+      "currencyType": "Gems",
+      "value": 12000
+    },
+    {
+      "id": "7Background",
+      "row": 7,
+      "itemType": "Background",
+      "currencyType": "Gems",
+      "value": 12000
+    },
+    {
+      "id": "8Background",
+      "row": 8,
+      "itemType": "Background",
+      "currencyType": "Ads",
+      "value": 8
+    },
+    {
+      "id": "9Background",
+      "row": 9,
+      "itemType": "Background",
+      "currencyType": "Ads",
+      "value": 16
+    },
+    {
+      "id": "10Background",
+      "row": 10,
+      "itemType": "Background",
+      "currencyType": "Ads",
+      "value": 24
+    },
+    {
+      "id": "11Background",
+      "row": 11,
+      "itemType": "Background",
+      "currencyType": "Ads",
+      "value": 24
+    }
+  ]
+}

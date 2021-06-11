@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 3efde8513ea89214baf9af17a2ca34cb
+labels:
+- gvh
+- gvh_rename_to_disable
+- gvh_version-1.2.162
+- gvhp_exportpath-ExternalDependencyManager/Editor/Google.VersionHandlerImpl_v1.2.162.dll.mdb
+- gvhp_targets-editor
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
