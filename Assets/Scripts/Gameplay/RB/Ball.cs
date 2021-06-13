@@ -1,11 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class Ball : MonoBehaviour
 {
     private void Start()
     {
-        Destroy(gameObject, 5);
+        Invoke(nameof(Destroy), 2);
+    }
+
+    private void Destroy()
+    {
+        transform.DOScale(Vector3.zero, 1).OnComplete(() => Destroy(gameObject));
     }
 }

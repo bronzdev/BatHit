@@ -19,7 +19,7 @@ public class UiGps : MonoBehaviour
         PlayGamesPlatform.InitializeInstance(config);
         PlayGamesPlatform.DebugLogEnabled = true;
         PlayGamesPlatform.Activate();
-        Hud.SetHudText?.Invoke("Started Sign in");
+        Hud.AddHudText?.Invoke("Started Sign in");
         //This should work :(
         //PlayGamesPlatform.Instance.Authenticate(SignInInteractivity.CanPromptAlways, (result) =>
         //{

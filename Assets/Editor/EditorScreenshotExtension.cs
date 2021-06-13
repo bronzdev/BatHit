@@ -38,7 +38,7 @@ public static class EditorScreenshotExtension
         // finally write the file e.g. to the StreamingAssets folder
         var timestamp = System.DateTime.Now;
         var stampString = string.Format("_{0}-{1:00}-{2:00}_{3:00}-{4:00}-{5:00}", timestamp.Year, timestamp.Month, timestamp.Day, timestamp.Hour, timestamp.Minute, timestamp.Second);
-        File.WriteAllBytes(Path.Combine("C:/Repos/SlideAway/PlayStoreStuff/Screenshots/", "Screenshot" + stampString + ".png"), bytes);
+        File.WriteAllBytes(Path.Combine("C:/Repos/CricketBatHit/PlaystoreStuff/Screenshots/", "Screenshot" + stampString + ".png"), bytes);
 
         // Refresh the AssetsDatabase so the file actually appears in Unity
         AssetDatabase.Refresh();

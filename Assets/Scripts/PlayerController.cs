@@ -148,38 +148,38 @@ public class PlayerController : MonoBehaviour
 
     private void CheckAchievements()
     {
-        switch (AppData.currentScore)
-        {
-            case int n when (n >= AppData.achievementValue1 && n <= AppData.achievementValue1 + 5):
-                GpsManager.Instance.UnlockAchievement(GPGSIds.achievement_score_50);
-                break;
-            case int n when (n >= AppData.achievementValue2 && n <= AppData.achievementValue2 + 5):
-                GpsManager.Instance.UnlockAchievement(GPGSIds.achievement_score_100);
-                break;
-            case int n when (n >= AppData.achievementValue3 && n <= AppData.achievementValue3 + 5):
-                GpsManager.Instance.UnlockAchievement(GPGSIds.achievement_score_250);
-                break;
-            case int n when (n >= AppData.achievementValue4 && n <= AppData.achievementValue4 + 5):
-                GpsManager.Instance.UnlockAchievement(GPGSIds.achievement_score_500);
-                break;
-            case int n when (n >= AppData.achievementValue5 && n <= AppData.achievementValue5 + 5):
-                GpsManager.Instance.UnlockAchievement(GPGSIds.achievement_score_1000);
-                break;
-            case int n when (n >= AppData.achievementValue6 && n <= AppData.achievementValue6 + 5):
-                GpsManager.Instance.UnlockAchievement(GPGSIds.achievement_score_1500);
-                break;
-            case int n when (n >= AppData.achievementValue7 && n <= AppData.achievementValue7 + 5):
-                GpsManager.Instance.UnlockAchievement(GPGSIds.achievement_score_3000);
-                break;
-            case int n when (n >= AppData.achievementValue8 && n <= AppData.achievementValue8 + 5):
-                GpsManager.Instance.UnlockAchievement(GPGSIds.achievement_score_5000);
-                break;
-            case int n when (n >= AppData.achievementValue9 && n <= AppData.achievementValue9 + 5):
-                GpsManager.Instance.UnlockAchievement(GPGSIds.achievement_score_10000);
-                break;
-            default:
-                break;
-        }
+        //switch (AppData.currentScore)
+        //{
+        //    case int n when (n >= AppData.achievementValue1 && n <= AppData.achievementValue1 + 5):
+        //        GpsManager.Instance.UnlockAchievement(GPGSIds.achievement_score_50);
+        //        break;
+        //    case int n when (n >= AppData.achievementValue2 && n <= AppData.achievementValue2 + 5):
+        //        GpsManager.Instance.UnlockAchievement(GPGSIds.achievement_score_100);
+        //        break;
+        //    case int n when (n >= AppData.achievementValue3 && n <= AppData.achievementValue3 + 5):
+        //        GpsManager.Instance.UnlockAchievement(GPGSIds.achievement_score_250);
+        //        break;
+        //    case int n when (n >= AppData.achievementValue4 && n <= AppData.achievementValue4 + 5):
+        //        GpsManager.Instance.UnlockAchievement(GPGSIds.achievement_score_500);
+        //        break;
+        //    case int n when (n >= AppData.achievementValue5 && n <= AppData.achievementValue5 + 5):
+        //        GpsManager.Instance.UnlockAchievement(GPGSIds.achievement_score_1000);
+        //        break;
+        //    case int n when (n >= AppData.achievementValue6 && n <= AppData.achievementValue6 + 5):
+        //        GpsManager.Instance.UnlockAchievement(GPGSIds.achievement_score_1500);
+        //        break;
+        //    case int n when (n >= AppData.achievementValue7 && n <= AppData.achievementValue7 + 5):
+        //        GpsManager.Instance.UnlockAchievement(GPGSIds.achievement_score_3000);
+        //        break;
+        //    case int n when (n >= AppData.achievementValue8 && n <= AppData.achievementValue8 + 5):
+        //        GpsManager.Instance.UnlockAchievement(GPGSIds.achievement_score_5000);
+        //        break;
+        //    case int n when (n >= AppData.achievementValue9 && n <= AppData.achievementValue9 + 5):
+        //        GpsManager.Instance.UnlockAchievement(GPGSIds.achievement_score_10000);
+        //        break;
+        //    default:
+        //        break;
+        //}
     }
 
     public float Clamp0360(float eulerAngles)

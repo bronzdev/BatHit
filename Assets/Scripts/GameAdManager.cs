@@ -67,7 +67,7 @@ public class GameAdManager : Singleton<GameAdManager>
             case AdStatus.Error:
             case AdStatus.Failed:
                 OnAdFailed?.Invoke();
-                Hud.SetHudText?.Invoke("Ad Skipped, Error or Failed");
+                Hud.AddHudText?.Invoke("Ad Skipped, Error or Failed");
                 break;
             case AdStatus.Started:
                 break;

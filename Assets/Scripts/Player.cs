@@ -49,7 +49,7 @@ internal static class Player
     #region Load data at start *** Very Imp 
     private static void OnSaveDataLoaded(bool isCloudDataLoaded, string saveData)
     {
-        Hud.SetHudText?.Invoke("isCloudData: " + isCloudDataLoaded + "\n" + saveData);
+        Hud.AddHudText?.Invoke("isCloudData: " + isCloudDataLoaded + "\n" + saveData);
         Player.isCloudDataLoaded = isCloudDataLoaded;
         //If saved data is empty, create new
         if (String.IsNullOrEmpty(saveData))
@@ -82,49 +82,49 @@ internal static class Player
             PlayerPrefs.DeleteKey(AppData.oldSaveKey);
         }
         rewardsDateTime = DateTime.UtcNow;
-        Hud.SetHudText?.Invoke("Created new save, checking achievements");
+        Hud.AddHudText?.Invoke("Created new save, checking achievements");
         CheckAchievements();
         SaveGameUserData();
     }
 
     private static void CheckAchievements()
     {
-        if (save.highScore >= AppData.achievementValue1)
-        {
-            GpsManager.Instance.UnlockAchievement(GPGSIds.achievement_score_50);
-        }
-        if (save.highScore >= AppData.achievementValue2)
-        {
-            GpsManager.Instance.UnlockAchievement(GPGSIds.achievement_score_100);
-        }
-        if (save.highScore >= AppData.achievementValue3)
-        {
-            GpsManager.Instance.UnlockAchievement(GPGSIds.achievement_score_250);
-        }
-        if (save.highScore >= AppData.achievementValue4)
-        {
-            GpsManager.Instance.UnlockAchievement(GPGSIds.achievement_score_500);
-        }
-        if (save.highScore >= AppData.achievementValue5)
-        {
-            GpsManager.Instance.UnlockAchievement(GPGSIds.achievement_score_1000);
-        }
-        if (save.highScore >= AppData.achievementValue6)
-        {
-            GpsManager.Instance.UnlockAchievement(GPGSIds.achievement_score_1500);
-        }
-        if (save.highScore >= AppData.achievementValue7)
-        {
-            GpsManager.Instance.UnlockAchievement(GPGSIds.achievement_score_3000);
-        }
-        if (save.highScore >= AppData.achievementValue8)
-        {
-            GpsManager.Instance.UnlockAchievement(GPGSIds.achievement_score_5000);
-        }
-        if (save.highScore >= AppData.achievementValue9)
-        {
-            GpsManager.Instance.UnlockAchievement(GPGSIds.achievement_score_10000);
-        }
+        //if (save.highScore >= AppData.achievementValue1)
+        //{
+        //    GpsManager.Instance.UnlockAchievement(GPGSIds.achievement_score_50);
+        //}
+        //if (save.highScore >= AppData.achievementValue2)
+        //{
+        //    GpsManager.Instance.UnlockAchievement(GPGSIds.achievement_score_100);
+        //}
+        //if (save.highScore >= AppData.achievementValue3)
+        //{
+        //    GpsManager.Instance.UnlockAchievement(GPGSIds.achievement_score_250);
+        //}
+        //if (save.highScore >= AppData.achievementValue4)
+        //{
+        //    GpsManager.Instance.UnlockAchievement(GPGSIds.achievement_score_500);
+        //}
+        //if (save.highScore >= AppData.achievementValue5)
+        //{
+        //    GpsManager.Instance.UnlockAchievement(GPGSIds.achievement_score_1000);
+        //}
+        //if (save.highScore >= AppData.achievementValue6)
+        //{
+        //    GpsManager.Instance.UnlockAchievement(GPGSIds.achievement_score_1500);
+        //}
+        //if (save.highScore >= AppData.achievementValue7)
+        //{
+        //    GpsManager.Instance.UnlockAchievement(GPGSIds.achievement_score_3000);
+        //}
+        //if (save.highScore >= AppData.achievementValue8)
+        //{
+        //    GpsManager.Instance.UnlockAchievement(GPGSIds.achievement_score_5000);
+        //}
+        //if (save.highScore >= AppData.achievementValue9)
+        //{
+        //    GpsManager.Instance.UnlockAchievement(GPGSIds.achievement_score_10000);
+        //}
     }
 
     private static void CompareCloudWithLocalSaveAndLoad(string cloudData)
@@ -137,11 +137,11 @@ internal static class Player
         {
             DateTime cloud = JsonUtility.FromJson<JsonDateTime>(tempCloudSave.lastPlayedDateTime);
             cloudTicks = cloud.Ticks;
-            Hud.SetHudText?.Invoke("cloudTicks " + cloudTicks);
+            Hud.AddHudText?.Invoke("cloudTicks " + cloudTicks);
         }
         else
         {
-            Hud.SetHudText?.Invoke("tempCloudSave is null or.. CreateNewSaveData");
+            Hud.AddHudText?.Invoke("tempCloudSave is null or.. CreateNewSaveData");
             CreateNewSaveData();
         }
 
@@ -150,11 +150,11 @@ internal static class Player
         {
             DateTime local = JsonUtility.FromJson<JsonDateTime>(tempLocalSave.lastPlayedDateTime);
             localTicks = local.Ticks;
-            Hud.SetHudText?.Invoke("localTicks " + localTicks);
+            Hud.AddHudText?.Invoke("localTicks " + localTicks);
         }
         else
         {
-            Hud.SetHudText?.Invoke("tempLocalSave is null " + LoadLocalData());
+            Hud.AddHudText?.Invoke("tempLocalSave is null " + LoadLocalData());
             LoadSaveData(cloudData);
             return;
         }
@@ -162,12 +162,12 @@ internal static class Player
         if (localTicks > cloudTicks)
         {
             LoadSaveData(LoadLocalData());
-            Hud.SetHudText?.Invoke("Loading local");
+            Hud.AddHudText?.Invoke("Loading local");
         }
         else
         {
             LoadSaveData(cloudData);
-            Hud.SetHudText?.Invoke("Loading cloud");
+            Hud.AddHudText?.Invoke("Loading cloud");
         }
     }
 
@@ -212,38 +212,20 @@ internal static class Player
 
     internal static int GetHighScore()
     {
-        if (save != null)
-        {
-            return save.highScore;
-        }
-        else
-        {
-            return 0;
-        }
+        if (save != null) { return save.highScore; }
+        else { return 0; }
     }
 
     internal static int GetRetries()
     {
-        if (save != null)
-        {
-            return save.retries;
-        }
-        else
-        {
-            return 0;
-        }
+        if (save != null) { return save.currentLevel; }
+        else { return 0; }
     }
 
     internal static int GetGems()
     {
-        if (save != null)
-        {
-            return save.gems;
-        }
-        else
-        {
-            return 0;
-        }
+        if (save != null) { return save.gems; }
+        else { return 0; }
     }
 
     internal static void IncrementGems(int adder)
@@ -264,7 +246,7 @@ internal static class Player
 
     internal static void IncrementRetries()
     {
-        save.retries++;
+        save.currentLevel++;
         SaveGameUserData();
     }
 
@@ -349,7 +331,7 @@ internal static class Player
         Player.save.lastPlayedDateTime = JsonUtility.ToJson((JsonDateTime)DateTime.UtcNow);
         Player.save.DictonaryToList();
         string save = JsonUtility.ToJson(Player.save);
-        Hud.SetHudText?.Invoke("saving ");// + save);
+        Hud.AddHudText?.Invoke("saving ");// + save);
         SaveLocalData(save);
         GpsManager.Instance.SaveToCloud(save);
     }
@@ -360,7 +342,7 @@ public class PlayerData
 {
     public int gems;
     public int highScore;
-    public int retries;
+    public int currentLevel;
     public List<string> unlockedItemIds;
     public List<AdsWatched> adsWatchedItemIds;
     public Dictionary<string, int> adsWatched = new Dictionary<string, int>();
@@ -374,15 +356,13 @@ public class PlayerData
     {
         gems = 100;
         highScore = 0;
-        retries = 0;
+        currentLevel = 0;
         unlockedItemIds = new List<string>();
         unlockedItemIds.Add("0Ball");
-        unlockedItemIds.Add("0Floor");
-        unlockedItemIds.Add("0Background");
+        unlockedItemIds.Add("0Bat");
         currentSelectedItemIds = new string[3];
         currentSelectedItemIds[0] = "0Ball";
-        currentSelectedItemIds[1] = "0Floor";
-        currentSelectedItemIds[2] = "0Background";
+        currentSelectedItemIds[1] = "0Bat";
         nextRewardDateTime = JsonUtility.ToJson((JsonDateTime)DateTime.UtcNow);
         lastPlayedDateTime = JsonUtility.ToJson((JsonDateTime)DateTime.UtcNow);
         isSoundEnabled = true;

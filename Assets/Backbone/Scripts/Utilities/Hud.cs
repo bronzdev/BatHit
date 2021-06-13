@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class Hud : MonoBehaviour
 {
+    public static Action<string> AddHudText;
     public static Action<string> SetHudText;
     public static Action<bool> OnShowDebugText;
     public static Action<bool> OnShowFpsText;
@@ -21,7 +22,8 @@ public class Hud : MonoBehaviour
     {
         OnShowDebugText += ShowDebugText;
         OnShowFpsText += ShowFpsText;
-        SetHudText += PrintDebugText;
+        AddHudText += AddDebugText;
+        SetHudText += SetDebugText;
         debugText = transform.GetChild(0).GetComponent<Text>();
         fpsText = transform.GetChild(1).GetComponent<Text>();
     }
@@ -39,10 +41,13 @@ public class Hud : MonoBehaviour
 
     private void OnDestroy()
     {
-        SetHudText -= PrintDebugText;
+        AddHudText -= AddDebugText;
         OnShowDebugText -= ShowDebugText;
         OnShowFpsText -= ShowFpsText;
+        SetHudText -= SetDebugText;
     }
+
+
 
     private void ShowDebugText(bool isShowing)
     {
@@ -70,7 +75,19 @@ public class Hud : MonoBehaviour
         }
     }
 
-    private void PrintDebugText(string text)
+    private void SetDebugText(string text)
+    {
+        if (showDebug)
+        {
+            debugText.text = text;
+        }
+        if (printDebug)
+        {
+            Debug.Log(text);
+        }
+    }
+
+    private void AddDebugText(string text)
     {
         if (showDebug)
         {

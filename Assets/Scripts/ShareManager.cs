@@ -38,7 +38,7 @@ public class ShareManager : Singleton<ShareManager>
         Destroy(ss);
 
         new NativeShare().AddFile(filePath)
-            .SetSubject("Slide Away").SetText("WOW!! my score is " + AppData.currentScore + " playing #SlideAway")
+            .SetSubject("Bat Hit").SetText("WOW!! my score is " + AppData.currentScore + " playing #BatHit")
             .SetUrl("https://play.google.com/store/apps/details?id=com.bronz.slideway")
             .SetCallback((result, shareTarget) => Debug.Log("Share result: " + result + ", selected app: " + shareTarget))
             .Share();

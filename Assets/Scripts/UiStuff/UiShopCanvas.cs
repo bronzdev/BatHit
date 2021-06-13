@@ -92,11 +92,11 @@ public class UiShopCanvas : MonoBehaviour
                 case ShopItemType.Ball:
                     uiShopItem.transform.SetParent(contents[0]);
                     break;
-                case ShopItemType.Floor:
+                case ShopItemType.Bat:
                     uiShopItem.transform.SetParent(contents[1]);
                     break;
-                case ShopItemType.Background:
-                    uiShopItem.transform.SetParent(contents[2]);
+                    //case ShopItemType.Background:
+                    //    uiShopItem.transform.SetParent(contents[2]);
                     break;
                 default:
                     break;
@@ -378,7 +378,7 @@ public class UiShopCanvas : MonoBehaviour
     {
         if (!Shop.items.ContainsKey(itemId))
         {
-            Hud.SetHudText?.Invoke("***Item ID not in DICT***");
+            Hud.AddHudText?.Invoke("***Item ID not in DICT***");
             return;
         }
         switch (Shop.items[itemId].itemTypeEnum)
@@ -386,11 +386,11 @@ public class UiShopCanvas : MonoBehaviour
             case ShopItemType.Ball:
                 OnBallChanged?.Invoke(itemId);
                 break;
-            case ShopItemType.Floor:
+            case ShopItemType.Bat:
                 OnFloorChanged?.Invoke(itemId);
                 break;
-            case ShopItemType.Background:
-                OnBackgroundChanged?.Invoke(itemId);
+                //case ShopItemType.Background:
+                //    OnBackgroundChanged?.Invoke(itemId);
                 break;
             default:
                 break;

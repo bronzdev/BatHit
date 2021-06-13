@@ -20,7 +20,6 @@ public class UiStartCanvas : MonoBehaviour
     [SerializeField] private GameObject mainPanel;
     [SerializeField] private RectTransform topPanelRect;
     [SerializeField] private TextMeshProUGUI highScoreText;
-    [SerializeField] private TextMeshProUGUI retriesText;
     [Space(10)]    //Left Buttons
     [SerializeField] private RectTransform leftButtonsRect;
     [SerializeField] private Button leaderboardButton;
@@ -49,6 +48,7 @@ public class UiStartCanvas : MonoBehaviour
 
     private void Awake()
     {
+        mainPanel.gameObject.SetActive(true);
         GpsManager.OnSaveDataLoaded += OnCloudDataLoaded;
         OnToggleUiStartPanel += ToggleUiStartPanel;
         Player.OnPlayerDataLoaded += OnPlayerDataLoaded;
@@ -182,7 +182,7 @@ public class UiStartCanvas : MonoBehaviour
             //Debug.LogError("PlayerData is null");
             return;
         }
-        retriesText.text = "Sessions: " + Player.GetRetries();
+        //retriesText.text = "Sessions: " + Player.GetRetries();
         highScoreText.text = "High Score: " + Player.GetHighScore();
     }
     #endregion

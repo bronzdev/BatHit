@@ -50,7 +50,6 @@ public enum CurrencyType
 public enum ShopItemType
 {
     Ball,
-    Floor,
-    Background
+    Bat
 }
 #endregion

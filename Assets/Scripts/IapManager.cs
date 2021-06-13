@@ -24,11 +24,6 @@ public class IapManager : Singleton<IapManager>
         }
     }
 
-    private void Start()
-    {
-
-    }
-
     private void OnDestroy()
     {
         iAPListener.onPurchaseComplete.RemoveListener(onPurchaseComplete);
@@ -38,13 +33,13 @@ public class IapManager : Singleton<IapManager>
     private void onPurchaseComplete(Product product)
     {
         OnPurchaseComplete?.Invoke(product);
-        Hud.SetHudText?.Invoke(product.definition.id + "  OnPurchaseComplete");
+        Hud.AddHudText?.Invoke(product.definition.id + "  OnPurchaseComplete");
     }
 
     private void onPurchaseFailed(Product product, PurchaseFailureReason failureReason)
     {
         OnPurchaseFailed?.Invoke(product);
-        Hud.SetHudText?.Invoke(product.definition.id + "  OnPurchaseFailed " + "/n" + failureReason);
+        Hud.AddHudText?.Invoke(product.definition.id + "  OnPurchaseFailed " + "/n" + failureReason);
     }
 
     public ProductCatalogItem GetProductByItem(string itemId)

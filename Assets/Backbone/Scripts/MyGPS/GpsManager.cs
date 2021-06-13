@@ -29,23 +29,21 @@ public class GpsManager : Singleton<GpsManager>
     #region Init and Login
     public void GpsSignIn()
     {
+        //OnSaveDataLoaded?.Invoke(false, Player.LoadLocalData());
+        //return;
+        ////Will have to edit later
         PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder().EnableSavedGames().Build();
         PlayGamesPlatform.InitializeInstance(config);
         PlayGamesPlatform.DebugLogEnabled = showDebugLogs;
         PlayGamesPlatform.Activate();
-        Hud.SetHudText?.Invoke("Started Sign in");
-        //This should work :(
-        //PlayGamesPlatform.Instance.Authenticate(SignInInteractivity.CanPromptAlways, (result) =>
-        //{
-        //    Debug.LogError("Install GPS please ask user poup ");
-        //});
+        Hud.AddHudText?.Invoke("Started Sign in");
         Social.localUser.Authenticate(OnAuthenticate);
     }
 
     private void OnAuthenticate(bool isSuccess)
     {
         isPlayerDataLoaded = true;
-        Hud.SetHudText?.Invoke("**Signed success " + isSuccess);
+        Hud.AddHudText?.Invoke("**Signed success " + isSuccess);
         if (isSuccess && Social.localUser.authenticated && !isProcessing)//load cloud data
         {
             StartCoroutine(LoadFromCloud());
@@ -130,7 +128,7 @@ public class GpsManager : Singleton<GpsManager>
     {
         Social.ReportScore(score, lbId, (bool success) =>
         {
-            Hud.SetHudText?.Invoke("PostScoreToLeaderboard " + success.ToString());
+            Hud.AddHudText?.Invoke("PostScoreToLeaderboard " + success.ToString());
         });
     }
 
@@ -143,7 +141,7 @@ public class GpsManager : Singleton<GpsManager>
     {
         Social.ReportProgress(achievementId, 100.0f, (bool success) =>
         {
-            Hud.SetHudText?.Invoke("UnlockAchievement " + success.ToString());
+            Hud.AddHudText?.Invoke("UnlockAchievement " + success.ToString());
         });
     }
 
@@ -186,7 +184,7 @@ public class GpsManager : Singleton<GpsManager>
         {
             yield return null;
         }
-        Hud.SetHudText?.Invoke("Done loading CloudData " + saveDataLoadedString);
+        Hud.AddHudText?.Invoke("Done loading CloudData " + saveDataLoadedString);
         OnSaveDataLoaded?.Invoke(true, saveDataLoadedString);
     }
 
@@ -194,7 +192,7 @@ public class GpsManager : Singleton<GpsManager>
     {
         if (cloudData == null)
         {
-            Hud.SetHudText?.Invoke("No Data saved to the cloud");
+            Hud.AddHudText?.Invoke("No Data saved to the cloud");
         }
         else
         {
@@ -214,7 +212,7 @@ public class GpsManager : Singleton<GpsManager>
         }
         else
         {
-            Hud.SetHudText?.Invoke("Error opening Saved Game" + status);
+            Hud.AddHudText?.Invoke("Error opening Saved Game" + status);
         }
     }
 
@@ -222,7 +220,7 @@ public class GpsManager : Singleton<GpsManager>
     {
         if (status != SavedGameRequestStatus.Success)
         {
-            Hud.SetHudText?.Invoke("Error Saving" + status);
+            Hud.AddHudText?.Invoke("Error Saving" + status);
         }
         else
         {
@@ -240,7 +238,7 @@ public class GpsManager : Singleton<GpsManager>
         }
         else
         {
-            Hud.SetHudText?.Invoke("Error opening Saved Game" + status);
+            Hud.AddHudText?.Invoke("Error opening Saved Game" + status);
         }
     }
 
@@ -248,7 +246,7 @@ public class GpsManager : Singleton<GpsManager>
     {
         if (status != SavedGameRequestStatus.Success)
         {
-            Hud.SetHudText?.Invoke("Error Saving" + status);
+            Hud.AddHudText?.Invoke("Error Saving" + status);
         }
         else
         {

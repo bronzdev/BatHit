@@ -9,39 +9,45 @@ using DG.Tweening;
 public class UiGameOverCanvas : MonoBehaviour
 {
     public static Action OnRestartLevel;
-    [SerializeField] private RectTransform[] panels;
     [SerializeField] private GameObject mainPanel;
-    [SerializeField] private Button restartButton;
     [SerializeField] private Button watchAdButton;
+    [SerializeField] private Button noThanksButton;
+    [Space(10)]
+    [SerializeField] private GameObject buttonsPanel;
+    [SerializeField] private Button restartButton;
     [SerializeField] private Button shareButton;
     [SerializeField] private Button rateUsButton;
     [SerializeField] private TextMeshProUGUI score;
     [SerializeField] private TextMeshProUGUI highScore;
-    private const float hidePosX = -1500;
-    private const float animSpeed = 0.25f;
-    private Vector3 punchRotate = new Vector3(10, 0, 10);
+    private Image watchAdButtonImage;
 
     private void Awake()
     {
         PlayerController.OnGameOver += GameOver;
         restartButton.onClick.AddListener(RestartLevelButtonClicked);
         watchAdButton.onClick.AddListener(WatchAdButtonClicked);
+        noThanksButton.onClick.AddListener(NoThanksButtonClicked);
         shareButton.onClick.AddListener(ShareButtonClicked);
         mainPanel.SetActive(false);
-        for (int i = 0; i < panels.Length; i++)
-        {
-            panels[i].anchoredPosition = new Vector2(hidePosX, panels[i].anchoredPosition.y);
-        }
         rateUsButton.onClick.AddListener(OnReviewAppButtonPressed);
+        watchAdButtonImage = watchAdButton.GetComponent<Image>();
     }
 
     private void OnDestroy()
     {
         restartButton.onClick.RemoveListener(RestartLevelButtonClicked);
         watchAdButton.onClick.RemoveListener(WatchAdButtonClicked);
+        noThanksButton.onClick.AddListener(NoThanksButtonClicked);
         shareButton.onClick.RemoveListener(ShareButtonClicked);
         PlayerController.OnGameOver -= GameOver;
         rateUsButton.onClick.RemoveListener(OnReviewAppButtonPressed);
+    }
+
+    private void NoThanksButtonClicked()
+    {
+        StopCoroutine(StartCountdown());
+        watchAdButton.gameObject.SetActive(false);
+        buttonsPanel.SetActive(true);
     }
 
     private void WatchAdButtonClicked()
@@ -52,7 +58,7 @@ public class UiGameOverCanvas : MonoBehaviour
 
     private void OnReviewAppButtonPressed()
     {
-        Application.OpenURL("https://play.google.com/store/apps/details?id=com.bronz.slideway");
+        Application.OpenURL("https://play.google.com/store/apps/details?id=com.bronz.bathit");
         AnalyticsManager.ButtonPressed(GameButtons.RateUs);
     }
 
@@ -65,28 +71,26 @@ public class UiGameOverCanvas : MonoBehaviour
 
     private void GameOver()
     {
+        buttonsPanel.SetActive(false);
+        noThanksButton.gameObject.SetActive(false);
+        watchAdButton.gameObject.SetActive(true);
         score.text = "Score: " + AppData.currentScore.ToString();
         highScore.text = "High Score: " + Player.GetHighScore().ToString();
         mainPanel.SetActive(true);
-        StartCoroutine(ShowPanelAnimate());
-        InvokeRepeating("HighlightWatchAdButton", 1, 1);
         AnalyticsManager.GameOverCurrentScore();
         AnalyticsManager.ScreenVisit(GameScreens.GameOver);
-    }
-    //Do not delete used by invoke
-    private void HighlightWatchAdButton()
-    {
-        watchAdButton.transform.DOPunchRotation(punchRotate, 0.5f);
+        StartCoroutine(StartCountdown());
+        watchAdButtonImage.DOFillAmount(1, AppData.watchAdCountdown);
     }
 
-    private IEnumerator ShowPanelAnimate()
+    private IEnumerator StartCountdown()
     {
-        yield return new WaitForSeconds(animSpeed);
-        for (int i = 0; i < panels.Length; i++)
-        {
-            panels[i].DOAnchorPosX(0, animSpeed);
-            yield return new WaitForSeconds(animSpeed);
-        }
+
+        yield return new WaitForSeconds(AppData.watchAdCountdown / 2);
+        noThanksButton.gameObject.SetActive(true);
+        yield return new WaitForSeconds(AppData.watchAdCountdown / 2);
+        watchAdButton.gameObject.SetActive(false);
+        buttonsPanel.SetActive(true);
     }
 
     private void RestartLevelButtonClicked()
