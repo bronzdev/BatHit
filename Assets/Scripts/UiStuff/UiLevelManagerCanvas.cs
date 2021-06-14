@@ -9,23 +9,28 @@ public class UiLevelManagerCanvas : MonoBehaviour
 {
     public static Action OnShootBall;
     public static Action OnShootButtonClicked;
+    public static Action<int> OnLevelCleared;
     [SerializeField] private Image[] levelsImage;
     [SerializeField] private Button shootButton;
     [SerializeField] private TextMeshProUGUI currentLevelText;
     [SerializeField] private TextMeshProUGUI nextLevelText;
     [SerializeField] private TextMeshProUGUI shotsRemainingText;
     [SerializeField] private TextMeshProUGUI noBallCountdownText;
+    [SerializeField] private TextMeshProUGUI scoreText;
     private GameObject mainPanel;
     private bool areBallsEmpty;
     private float counter;
     private int semiLevelCounter = 0;
     private Vector3 platformSpawnPosition = new Vector3(0, -3, 0);
-    private int shotsRemaining;
+    private int ballsRemaining;
     private bool isSemiLevelCleared;
     private Platform currentPlatform;
+    private int currentLevelScore;
 
     private void Awake()
     {
+        UiLevelClearedCanvas.OnLevelClearedContinueButtonPressed += OnLevelClearedContinueButtonPressed;
+        Ground.OnBlocksDestroyed += OnBlocksDestroyed;
         Player.OnPlayerDataLoaded += OnPlayerDataLoaded;
         UiStartCanvas.OnGameStart += OnGameStart;
         PlayerController.OnGameOver += OnGameOver;
@@ -40,6 +45,8 @@ public class UiLevelManagerCanvas : MonoBehaviour
 
     private void OnDestroy()
     {
+        UiLevelClearedCanvas.OnLevelClearedContinueButtonPressed -= OnLevelClearedContinueButtonPressed;
+        Ground.OnBlocksDestroyed += OnBlocksDestroyed;
         Player.OnPlayerDataLoaded -= OnPlayerDataLoaded;
         UiStartCanvas.OnGameStart -= OnGameStart;
         PlayerController.OnGameOver -= OnGameOver;
@@ -66,6 +73,94 @@ public class UiLevelManagerCanvas : MonoBehaviour
         }
     }
 
+
+    #region Score Stuff
+    private void OnBlocksDestroyed(Transform obj)
+    {
+        SetCurrentLevelScore(1);
+    }
+
+    private void SetCurrentLevelScore(int value)
+    {
+        if (value == 0)
+        {
+            currentLevelScore = value;
+        }
+        else
+        {
+            currentLevelScore += value;
+            UiScoreAdder.OnAddScore?.Invoke(value);
+        }
+        scoreText.text = "Score " + currentLevelScore;
+    }
+
+    private void RecordHighScore()
+    {
+        if (currentLevelScore > Player.GetHighScore())
+        {
+            Player.save.highScore = currentLevelScore;
+        }
+    }
+    #endregion
+
+
+    #region Balls/Shots stuff
+    private void ShootButtonClicked()
+    {
+        if (ballsRemaining == 0)
+        {
+            return;
+        }
+        SetBallRemaining(ballsRemaining - 1);
+    }
+
+    private void SetBallRemaining(int value)
+    {
+        if (value <= 0)
+        {
+            value = 0;
+            counter = AppData.watchAdCountdown;
+            areBallsEmpty = true;
+            StartCoroutine(OnBallOver());
+        }
+        if (!isSemiLevelCleared)
+        {
+            OnShootBall?.Invoke();
+
+        }
+        ballsRemaining = value;
+        shotsRemainingText.text = AppData.ballIcon + "x" + ballsRemaining;
+        shotsRemainingText.color = ballsRemaining <= 1 ? ColorConstants.RedColor : Color.white;
+    }
+
+    private IEnumerator OnBallOver()
+    {
+        print(areBallsEmpty);
+        yield return new WaitForSeconds(AppData.ballsOverCooldownTime);
+        print(areBallsEmpty);
+        if (areBallsEmpty)
+        {
+            mainPanel.SetActive(false);
+            PlayerController.OnGameOver?.Invoke();
+        }
+    }
+
+    private void OnAllBlocksCleared()
+    {
+        SetCurrentLevelScore(ballsRemaining * AppData.remainingBallsPoints);
+        currentPlatform.OnAllBlocksCleared -= OnAllBlocksCleared;
+        isSemiLevelCleared = true;
+        StartCoroutine(LoadNextSemiLevelAfterDelay());
+    }
+    #endregion
+
+
+    private void OnLevelClearedContinueButtonPressed()
+    {
+        mainPanel.SetActive(true);
+        StartNextLevel();
+    }
+
     private void OnPlayerDataLoaded()
     {
         StartNextLevel();
@@ -73,8 +168,10 @@ public class UiLevelManagerCanvas : MonoBehaviour
 
     private void StartNextLevel()
     {
-        print("StartNextLevel");
+        //mainPanel.SetActive(true);
         semiLevelCounter = 0;
+        RecordHighScore();
+        SetCurrentLevelScore(0);
         InitNewLevel();
     }
 
@@ -98,7 +195,7 @@ public class UiLevelManagerCanvas : MonoBehaviour
         string path = AppData.platformLevelPath + "" + semiLevelCounter + "/0";
         currentPlatform = Instantiate(Resources.Load<Platform>(path) as Platform, platformSpawnPosition, Quaternion.identity);
         currentPlatform.transform.DOMoveY(0, 0.5f);
-        BallsRemaining = currentPlatform.shots + 4;
+        SetBallRemaining(currentPlatform.shots + 2);
         isSemiLevelCleared = false;
         if (currentPlatform != null)
         {
@@ -116,66 +213,16 @@ public class UiLevelManagerCanvas : MonoBehaviour
         levelsImage[semiLevelCounter].color = ColorConstants.UiCurrentLevel;
     }
 
-    private void ShootButtonClicked()
-    {
-        if (BallsRemaining == 0)
-        {
-            return;
-        }
-        BallsRemaining--;
-    }
-
-    private int BallsRemaining
-    {
-        get
-        {
-            return shotsRemaining;
-        }
-        set
-        {
-            if (value <= 0)
-            {
-                value = 0;
-                counter = AppData.watchAdCountdown;
-                areBallsEmpty = true;
-                StartCoroutine(OnBallOver());
-            }
-            else if (!isSemiLevelCleared)
-            {
-                OnShootBall?.Invoke();
-            }
-            shotsRemaining = value;
-            shotsRemainingText.text = AppData.ballIcon + "x" + BallsRemaining;
-            shotsRemainingText.color = BallsRemaining <= 1 ? ColorConstants.RedColor : Color.white;
-        }
-    }
-
-    private IEnumerator OnBallOver()
-    {
-        print(areBallsEmpty);
-        yield return new WaitForSeconds(AppData.ballsOverCooldownTime);
-        print(areBallsEmpty);
-        if (areBallsEmpty)
-        {
-            PlayerController.OnGameOver?.Invoke();
-        }
-    }
-
-    private void OnAllBlocksCleared()
-    {
-        currentPlatform.OnAllBlocksCleared -= OnAllBlocksCleared;
-        isSemiLevelCleared = true;
-        StartCoroutine(LoadNextSemiLevelAfterDelay());
-    }
 
     private IEnumerator LoadNextSemiLevelAfterDelay()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForEndOfFrame();
         semiLevelCounter++;
         if (semiLevelCounter >= AppData.maxSemiLevel)
         {
             Player.save.currentLevel++;
-            StartNextLevel();
+            OnLevelCleared?.Invoke(currentLevelScore);
+            mainPanel.SetActive(false);
             Player.SaveGameUserData();
         }
         else

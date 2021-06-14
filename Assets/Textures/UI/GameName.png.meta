@@ -123,12 +123,12 @@ TextureImporter:
       name: GameName_0
       rect:
         serializedVersion: 2
-        x: 240
-        y: 737
-        width: 601
-        height: 328
+        x: 269
+        y: 706
+        width: 583
+        height: 294
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -144,12 +144,12 @@ TextureImporter:
       name: GameName_2
       rect:
         serializedVersion: 2
-        x: 288
-        y: 323
-        width: 508
-        height: 328
+        x: 323
+        y: 345
+        width: 475
+        height: 357
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

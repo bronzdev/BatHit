@@ -10,7 +10,7 @@ public class Platform : MonoBehaviour
     [SerializeField] internal int shots = 4;
     public int collidersOnPlatform = 0;
     public List<Transform> blocks = new List<Transform>();
-    public List<PlatformCollider> platformColliders = new List<PlatformCollider>();
+    public List<Collider> others = new List<Collider>();
     private const float shrinkSpeed = 1f;
 
     private void Awake()
@@ -22,35 +22,27 @@ public class Platform : MonoBehaviour
             {
                 blocks.Add(child);
             }
-            PlatformCollider platformCollider = child.GetComponent<PlatformCollider>();
-            if (platformCollider != null)
+            else
             {
-                platformColliders.Add(platformCollider);
-                platformCollider.OnColliders += OnColliders;
+                Collider col = child.GetComponent<Collider>();
+                if (col != null)
+                {
+                    others.Add(col);
+                }
             }
         }
     }
-
     private void OnDestroy()
     {
         Ground.OnBlocksDestroyed -= OnBlocksDestroyed;
-        for (int i = 0; i < platformColliders.Count; i++)
-        {
-            platformColliders[i].OnColliders -= OnColliders;
-        }
     }
 
     private void OnBlocksDestroyed(Transform block)
     {
         blocks.Remove(block);
         block.DOScale(Vector3.zero, shrinkSpeed).OnComplete(() => Destroy(block.gameObject));
-    }
-
-    private void OnColliders(int colliders)
-    {
-        Hud.SetHudText?.Invoke("colliders.Count: " + colliders);
-        collidersOnPlatform = colliders;
-        if (collidersOnPlatform <= 0)
+        Hud.SetHudText?.Invoke("blocks.Count: " + blocks.Count);
+        if (blocks.Count <= 0)
         {
             StartCoroutine(DestroyPlatfom());
         }
@@ -58,18 +50,11 @@ public class Platform : MonoBehaviour
 
     private IEnumerator DestroyPlatfom()
     {
+        foreach (var item in others)
+        {
+            Destroy(item);
+        }
         yield return new WaitForSeconds(1.5f);
-        if (collidersOnPlatform > 0)
-        {
-            StartCoroutine(DestroyPlatfom());
-            yield return null;
-        }
-        if (blocks.Count > 0)
-        {
-            StartCoroutine(DestroyPlatfom());
-            yield return null;
-        }
-        yield return new WaitUntil(() => blocks.Count == 0);
         OnAllBlocksCleared?.Invoke();
         Destroy(gameObject);
     }

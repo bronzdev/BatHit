@@ -5,6 +5,7 @@
     internal static int currentScore;
     internal static int watchAdCountdown = 5;
     internal static int ballsOverCooldownTime = 5;
+    internal static int remainingBallsPoints = 50;
 
     //Achivements
     internal const int achievementValue1 = 50;
