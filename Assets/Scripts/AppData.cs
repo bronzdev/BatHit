@@ -4,6 +4,7 @@
     internal const int maxSemiLevel = 6;
     internal static int currentScore;
     internal static int watchAdCountdown = 5;
+    internal static int ballsOverCooldownTime = 5;
 
     //Achivements
     internal const int achievementValue1 = 50;
@@ -62,6 +63,7 @@
 
     internal const string gemIcon = "<sprite=0>";
     internal const string adIcon = "<sprite=1>";
+    internal const string ballIcon = "<sprite=2>";
 
     internal const string saveVersion = "0.1";
 }

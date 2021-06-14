@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlatformCollider : MonoBehaviour
@@ -10,7 +8,7 @@ public class PlatformCollider : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag(AppData.tag_block))
+        if (collision.gameObject.CompareTag(AppData.tag_block) || collision.gameObject.CompareTag(AppData.tag_bowlingPins))
         {
             CalculateBlocks(+1);
         }
@@ -18,7 +16,7 @@ public class PlatformCollider : MonoBehaviour
 
     private void OnCollisionExit(Collision collision)
     {
-        if (collision.gameObject.CompareTag(AppData.tag_block))
+        if (collision.gameObject.CompareTag(AppData.tag_block) || collision.gameObject.CompareTag(AppData.tag_bowlingPins))
         {
             CalculateBlocks(-1);
         }

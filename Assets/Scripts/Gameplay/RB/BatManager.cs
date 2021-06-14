@@ -16,12 +16,12 @@ public class BatManager : MonoBehaviour
 
     private void Awake()
     {
-        LevelManager.OnShootBall += OnShootBall;
+        UiLevelManagerCanvas.OnShootBall += OnShootBall;
     }
 
     private void OnDestroy()
     {
-        LevelManager.OnShootBall -= OnShootBall;
+        UiLevelManagerCanvas.OnShootBall -= OnShootBall;
     }
 
     private void OnShootBall()
