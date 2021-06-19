@@ -11,18 +11,18 @@ public class Ground : MonoBehaviour
         switch (collision.gameObject.tag)
         {
             case AppData.tag_block:
-                BlocksTouched(collision);
+                OnBlocksTouchedGound(collision);
                 break;
             case AppData.tag_bowlingPins:
                 UiGemsSpawnCanvas.OnSpawnSingleGem3D?.Invoke(collision.transform);
-                BlocksTouched(collision);
+                OnBlocksTouchedGound(collision);
                 break;
             default:
                 break;
         }
     }
 
-    private void BlocksTouched(Collision collision)
+    private void OnBlocksTouchedGound(Collision collision)
     {
         Destroy(collision.gameObject.GetComponent<Rigidbody>());
         OnBlocksDestroyed?.Invoke(collision.transform);

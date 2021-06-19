@@ -23,6 +23,10 @@ public class UiScoreAdder : MonoBehaviour
 
     private void AddScore(int points)
     {
+        if (points<=0)
+        {
+            return;
+        }
         TextMeshProUGUI point = Instantiate(scoreAdderTextPrefab, new Vector3(UnityEngine.Random.Range(rect.rect.xMin, rect.rect.xMax),
                     UnityEngine.Random.Range(rect.rect.yMin, rect.rect.yMax), 0) + rect.transform.position, Quaternion.identity, this.transform);
         if (points >= 50)

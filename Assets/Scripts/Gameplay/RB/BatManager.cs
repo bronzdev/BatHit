@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System;
 
 public class BatManager : MonoBehaviour
 {
@@ -16,28 +17,28 @@ public class BatManager : MonoBehaviour
 
     private void Awake()
     {
+        UiLevelManagerCanvas.OnHideBat += OnHideBat;
         UiLevelClearedCanvas.OnLevelClearedContinueButtonPressed += OnLevelClearedContinueButtonPressed;
-        UiLevelManagerCanvas.OnLevelCleared += OnLevelCleared;
         UiLevelManagerCanvas.OnShootBall += OnShootBall;
     }
 
     private void OnDestroy()
     {
+        UiLevelManagerCanvas.OnHideBat -= OnHideBat;
         UiLevelClearedCanvas.OnLevelClearedContinueButtonPressed -= OnLevelClearedContinueButtonPressed;
-        UiLevelManagerCanvas.OnLevelCleared -= OnLevelCleared;
         UiLevelManagerCanvas.OnShootBall -= OnShootBall;
+    }
+
+    private void OnHideBat()
+    {
+        isMenuOn = true;
+        batHandleCenter.gameObject.SetActive(false);
     }
 
     private void OnLevelClearedContinueButtonPressed()
     {
         isMenuOn = false;
         batHandleCenter.gameObject.SetActive(true);
-    }
-
-    private void OnLevelCleared(int obj)
-    {
-        isMenuOn = true;
-        batHandleCenter.gameObject.SetActive(false);
     }
 
     private void OnShootBall()

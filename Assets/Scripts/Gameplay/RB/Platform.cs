@@ -7,6 +7,7 @@ using System.Collections.Generic;
 public class Platform : MonoBehaviour
 {
     public Action OnAllBlocksCleared;
+    [SerializeField] internal bool isBonusLevel;
     [SerializeField] internal int shots = 4;
     public int collidersOnPlatform = 0;
     public List<Transform> blocks = new List<Transform>();
@@ -32,6 +33,7 @@ public class Platform : MonoBehaviour
             }
         }
     }
+
     private void OnDestroy()
     {
         Ground.OnBlocksDestroyed -= OnBlocksDestroyed;
@@ -41,7 +43,6 @@ public class Platform : MonoBehaviour
     {
         blocks.Remove(block);
         block.DOScale(Vector3.zero, shrinkSpeed).OnComplete(() => Destroy(block.gameObject));
-        Hud.SetHudText?.Invoke("blocks.Count: " + blocks.Count);
         if (blocks.Count <= 0)
         {
             StartCoroutine(DestroyPlatfom());
@@ -56,6 +57,6 @@ public class Platform : MonoBehaviour
         }
         yield return new WaitForSeconds(1.5f);
         OnAllBlocksCleared?.Invoke();
-        Destroy(gameObject);
+        // Destroy(gameObject);
     }
 }

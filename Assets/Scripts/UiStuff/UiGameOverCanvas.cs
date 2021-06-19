@@ -28,19 +28,19 @@ public class UiGameOverCanvas : MonoBehaviour
         watchAdButton.onClick.AddListener(WatchAdButtonClicked);
         noThanksButton.onClick.AddListener(NoThanksButtonClicked);
         shareButton.onClick.AddListener(ShareButtonClicked);
-        mainPanel.SetActive(false);
         rateUsButton.onClick.AddListener(OnReviewAppButtonPressed);
         watchAdButtonImage = watchAdButton.GetComponent<Image>();
+        mainPanel.SetActive(false);
     }
 
     private void OnDestroy()
     {
         restartButton.onClick.RemoveListener(RestartLevelButtonClicked);
         watchAdButton.onClick.RemoveListener(WatchAdButtonClicked);
-        noThanksButton.onClick.AddListener(NoThanksButtonClicked);
+        noThanksButton.onClick.RemoveListener(NoThanksButtonClicked);
         shareButton.onClick.RemoveListener(ShareButtonClicked);
-        PlayerController.OnGameOver -= GameOver;
         rateUsButton.onClick.RemoveListener(OnReviewAppButtonPressed);
+        PlayerController.OnGameOver -= GameOver;
     }
 
     private void NoThanksButtonClicked()
@@ -97,7 +97,8 @@ public class UiGameOverCanvas : MonoBehaviour
     {
         mainPanel.SetActive(false);
         OnRestartLevel?.Invoke();
-        SceneManager.LoadScene(0);
         AnalyticsManager.ButtonPressed(GameButtons.Restart);
+        print("RestartLevelButtonClicked");
+        SceneManager.LoadScene(0);
     }
 }
