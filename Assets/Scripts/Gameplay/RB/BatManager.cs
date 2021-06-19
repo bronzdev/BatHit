@@ -1,5 +1,4 @@
 using UnityEngine;
-using DG.Tweening;
 using System.Collections;
 
 public class BatManager : MonoBehaviour
@@ -13,20 +12,37 @@ public class BatManager : MonoBehaviour
     private Vector3 mousePos;
     private const float animDuration = 0.1f;
     private bool isBallShot = false;
+    private bool isMenuOn;
 
     private void Awake()
     {
+        UiLevelClearedCanvas.OnLevelClearedContinueButtonPressed += OnLevelClearedContinueButtonPressed;
+        UiLevelManagerCanvas.OnLevelCleared += OnLevelCleared;
         UiLevelManagerCanvas.OnShootBall += OnShootBall;
     }
 
     private void OnDestroy()
     {
+        UiLevelClearedCanvas.OnLevelClearedContinueButtonPressed -= OnLevelClearedContinueButtonPressed;
+        UiLevelManagerCanvas.OnLevelCleared -= OnLevelCleared;
         UiLevelManagerCanvas.OnShootBall -= OnShootBall;
+    }
+
+    private void OnLevelClearedContinueButtonPressed()
+    {
+        isMenuOn = false;
+        batHandleCenter.gameObject.SetActive(true);
+    }
+
+    private void OnLevelCleared(int obj)
+    {
+        isMenuOn = true;
+        batHandleCenter.gameObject.SetActive(false);
     }
 
     private void OnShootBall()
     {
-        if (isBallShot)
+        if (isBallShot || isMenuOn)
         {
             return;
         }

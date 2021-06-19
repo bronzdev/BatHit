@@ -14,17 +14,20 @@ public class UiLevelManagerCanvas : MonoBehaviour
     [SerializeField] private Button shootButton;
     [SerializeField] private TextMeshProUGUI currentLevelText;
     [SerializeField] private TextMeshProUGUI nextLevelText;
+    [SerializeField] private GameObject shotsRemainingPanel;
     [SerializeField] private TextMeshProUGUI shotsRemainingText;
+    [SerializeField] private GameObject countdownPanel;
     [SerializeField] private TextMeshProUGUI noBallCountdownText;
     [SerializeField] private TextMeshProUGUI scoreText;
-    private GameObject mainPanel;
-    private bool areBallsEmpty;
-    private float counter;
-    private int semiLevelCounter = 0;
+    [SerializeField] private GameObject bonusLevelPanel;
     private Vector3 platformSpawnPosition = new Vector3(0, -3, 0);
+    private GameObject mainPanel;
+    private Platform currentPlatform;
+    private bool areBallsEmpty;
+    private float counterDown;
+    private int semiLevelCounter;
     private int ballsRemaining;
     private bool isSemiLevelCleared;
-    private Platform currentPlatform;
     private int currentLevelScore;
 
     private void Awake()
@@ -57,22 +60,36 @@ public class UiLevelManagerCanvas : MonoBehaviour
     {
         if (areBallsEmpty && !isSemiLevelCleared)
         {
-            counter -= Time.deltaTime;
-            if (counter >= 0)
+            counterDown -= Time.deltaTime;
+            if (counterDown >= 0)
             {
-                noBallCountdownText.text = counter.ToString("F1") + "s";
+                noBallCountdownText.text = counterDown.ToString("F1") + "s";
             }
             else
             {
                 noBallCountdownText.text = "";
             }
         }
-        else
-        {
-            noBallCountdownText.text = "";
-        }
     }
 
+    private void ToggleBallCountdownPanel()
+    {
+        countdownPanel.SetActive(areBallsEmpty);
+    }
+
+    private void ToggleBonusPanel()
+    {
+        if (semiLevelCounter == AppData.maxSemiLevel - 1)
+        {
+            bonusLevelPanel.SetActive(true);
+            shotsRemainingPanel.SetActive(false);
+        }
+        else
+        {
+            bonusLevelPanel.SetActive(false);
+            shotsRemainingPanel.SetActive(true);
+        }
+    }
 
     #region Score Stuff
     private void OnBlocksDestroyed(Transform obj)
@@ -119,14 +136,14 @@ public class UiLevelManagerCanvas : MonoBehaviour
         if (value <= 0)
         {
             value = 0;
-            counter = AppData.watchAdCountdown;
+            counterDown = AppData.watchAdCountdown;
             areBallsEmpty = true;
+            ToggleBallCountdownPanel();
             StartCoroutine(OnBallOver());
         }
         if (!isSemiLevelCleared)
         {
             OnShootBall?.Invoke();
-
         }
         ballsRemaining = value;
         shotsRemainingText.text = AppData.ballIcon + "x" + ballsRemaining;
@@ -135,9 +152,7 @@ public class UiLevelManagerCanvas : MonoBehaviour
 
     private IEnumerator OnBallOver()
     {
-        print(areBallsEmpty);
         yield return new WaitForSeconds(AppData.ballsOverCooldownTime);
-        print(areBallsEmpty);
         if (areBallsEmpty)
         {
             mainPanel.SetActive(false);
@@ -190,7 +205,9 @@ public class UiLevelManagerCanvas : MonoBehaviour
 
     private void StartSemiLevel()
     {
+        ToggleBonusPanel();
         areBallsEmpty = false;
+        ToggleBallCountdownPanel();
         noBallCountdownText.text = "";
         string path = AppData.platformLevelPath + "" + semiLevelCounter + "/0";
         currentPlatform = Instantiate(Resources.Load<Platform>(path) as Platform, platformSpawnPosition, Quaternion.identity);
@@ -212,7 +229,6 @@ public class UiLevelManagerCanvas : MonoBehaviour
         levelsImage[semiLevelCounter - 1].color = ColorConstants.UiUnlockedLevel;
         levelsImage[semiLevelCounter].color = ColorConstants.UiCurrentLevel;
     }
-
 
     private IEnumerator LoadNextSemiLevelAfterDelay()
     {
