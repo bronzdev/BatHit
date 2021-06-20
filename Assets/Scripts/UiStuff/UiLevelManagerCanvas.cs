@@ -11,6 +11,10 @@ public class UiLevelManagerCanvas : MonoBehaviour
     public static Action OnShootBall;
     public static Action OnShootButtonClicked;
     public static Action<int> OnLevelCleared;
+    public static Action OnBossLevelCleared;
+    public static Action OnAllBallOver;
+    [SerializeField] private bool isTesting;
+    [SerializeField] private int testingBallCount = 10;
     [SerializeField] private Image[] levelsImage;
     [SerializeField] private Button shootButton;
     [SerializeField] private TextMeshProUGUI currentLevelText;
@@ -38,7 +42,6 @@ public class UiLevelManagerCanvas : MonoBehaviour
         Ground.OnBlocksDestroyed += OnBlocksDestroyed;
         Player.OnPlayerDataLoaded += OnPlayerDataLoaded;
         UiStartCanvas.OnGameStart += OnGameStart;
-        PlayerController.OnGameOver += OnGameOver;
         shootButton.onClick.AddListener(ShootButtonClicked);
         mainPanel = transform.GetChild(0).gameObject;
         mainPanel.SetActive(false);
@@ -54,7 +57,6 @@ public class UiLevelManagerCanvas : MonoBehaviour
         Ground.OnBlocksDestroyed += OnBlocksDestroyed;
         Player.OnPlayerDataLoaded -= OnPlayerDataLoaded;
         UiStartCanvas.OnGameStart -= OnGameStart;
-        PlayerController.OnGameOver -= OnGameOver;
         shootButton.onClick.RemoveListener(ShootButtonClicked);
     }
 
@@ -72,6 +74,11 @@ public class UiLevelManagerCanvas : MonoBehaviour
                 noBallCountdownText.text = "";
             }
         }
+    }
+
+    private void OnPlayerDataLoaded()
+    {
+        StartNextLevel();
     }
 
     private void ToggleBallCountdownPanel()
@@ -169,7 +176,7 @@ public class UiLevelManagerCanvas : MonoBehaviour
         if (areBallsEmpty)
         {
             mainPanel.SetActive(false);
-            PlayerController.OnGameOver?.Invoke();
+            OnAllBallOver?.Invoke();
         }
     }
 
@@ -190,11 +197,6 @@ public class UiLevelManagerCanvas : MonoBehaviour
     private void OnLevelClearedContinueButtonPressed()
     {
         mainPanel.SetActive(true);
-        StartNextLevel();
-    }
-
-    private void OnPlayerDataLoaded()
-    {
         StartNextLevel();
     }
 
@@ -225,24 +227,33 @@ public class UiLevelManagerCanvas : MonoBehaviour
         areBallsEmpty = false;
         ToggleBallCountdownPanel();
         noBallCountdownText.text = "";
-        string path = AppData.platformLevelPath + "" + semiLevelCounter + "/0";
-        currentPlatform = Instantiate(Resources.Load<Platform>(path) as Platform, platformSpawnPosition, Quaternion.identity);
-        currentPlatform.transform.DOMoveY(0, 0.5f);
-        SetBallRemaining(currentPlatform.shots);
-        isSemiLevelCleared = false;
-        if (currentPlatform != null)
+        if (isTesting)
         {
-            currentPlatform.OnAllBlocksCleared += OnAllBlocksCleared;
+            SetBallRemaining(testingBallCount);
         }
         else
         {
-            print("platform is null");
+            int randomSemiLevel = UnityEngine.Random.Range(0, 5);
+            string path = AppData.platformLevelPath + "" + semiLevelCounter + "/" + randomSemiLevel;
+            currentPlatform = Instantiate(Resources.Load<Platform>(path) as Platform, platformSpawnPosition, Quaternion.identity);
+            currentPlatform.transform.DOMoveY(0, 0.5f);
+            SetBallRemaining(currentPlatform.shots);
         }
+        isSemiLevelCleared = false;
+        if (currentPlatform == null)
+        {
+            currentPlatform = GameObject.FindObjectOfType<Platform>();
+        }
+        currentPlatform.OnAllBlocksCleared += OnAllBlocksCleared;
         shootButton.enabled = true;
     }
 
     private void OnSemiLevelCleared(int semiLevelCounter)
     {
+        if (semiLevelCounter == AppData.maxSemiLevel - 1)
+        {
+            OnBossLevelCleared?.Invoke();
+        }
         levelsImage[semiLevelCounter - 1].color = ColorConstants.UiUnlockedLevel;
         levelsImage[semiLevelCounter].color = ColorConstants.UiCurrentLevel;
         shootButton.enabled = false;
@@ -266,11 +277,6 @@ public class UiLevelManagerCanvas : MonoBehaviour
             OnSemiLevelCleared(semiLevelCounter);
             StartSemiLevel();
         }
-    }
-
-    private void OnGameOver()
-    {
-        mainPanel.SetActive(false);
     }
 
     private void OnGameStart()

@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        print("PlayerController");
         UiShopCanvas.OnIsShopMenuVisible += OnIsShopMenuVisible;
         UiStartCanvas.OnGameStart += OnGameStart;
         UiShopCanvas.OnBallChanged += OnBallMaterialChanged;

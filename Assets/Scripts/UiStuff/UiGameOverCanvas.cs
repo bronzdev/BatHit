@@ -23,7 +23,7 @@ public class UiGameOverCanvas : MonoBehaviour
 
     private void Awake()
     {
-        PlayerController.OnGameOver += GameOver;
+        UiLevelManagerCanvas.OnAllBallOver += GameOver;
         restartButton.onClick.AddListener(RestartLevelButtonClicked);
         watchAdButton.onClick.AddListener(WatchAdButtonClicked);
         noThanksButton.onClick.AddListener(NoThanksButtonClicked);
@@ -40,7 +40,7 @@ public class UiGameOverCanvas : MonoBehaviour
         noThanksButton.onClick.RemoveListener(NoThanksButtonClicked);
         shareButton.onClick.RemoveListener(ShareButtonClicked);
         rateUsButton.onClick.RemoveListener(OnReviewAppButtonPressed);
-        PlayerController.OnGameOver -= GameOver;
+        UiLevelManagerCanvas.OnAllBallOver -= GameOver;
     }
 
     private void NoThanksButtonClicked()
@@ -71,16 +71,17 @@ public class UiGameOverCanvas : MonoBehaviour
 
     private void GameOver()
     {
-        buttonsPanel.SetActive(false);
-        noThanksButton.gameObject.SetActive(false);
-        watchAdButton.gameObject.SetActive(true);
-        score.text = "Score: " + AppData.currentScore.ToString();
-        highScore.text = "High Score: " + Player.GetHighScore().ToString();
         mainPanel.SetActive(true);
-        AnalyticsManager.GameOverCurrentScore();
-        AnalyticsManager.ScreenVisit(GameScreens.GameOver);
-        StartCoroutine(StartCountdown());
-        watchAdButtonImage.DOFillAmount(1, AppData.watchAdCountdown);
+        //buttonsPanel.SetActive(false);
+        //noThanksButton.gameObject.SetActive(false);
+        //watchAdButton.gameObject.SetActive(true);
+        //score.text = "Score: " + AppData.currentScore.ToString();
+        //highScore.text = "High Score: " + Player.GetHighScore().ToString();
+        //mainPanel.SetActive(true);
+        //AnalyticsManager.GameOverCurrentScore();
+        //AnalyticsManager.ScreenVisit(GameScreens.GameOver);
+        //StartCoroutine(StartCountdown());
+        //watchAdButtonImage.DOFillAmount(1, AppData.watchAdCountdown);
     }
 
     private IEnumerator StartCountdown()
