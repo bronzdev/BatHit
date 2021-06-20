@@ -16,6 +16,6 @@ public class UiIapSimpleButton : MonoBehaviour
 
     private void OnDestroy()
     {
-        button.onClick.AddListener(() => OnIapButtonPressed(id));
+        button.onClick.RemoveListener(() => OnIapButtonPressed(id));
     }
 }

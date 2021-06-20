@@ -54,7 +54,7 @@ public class UiLevelManagerCanvas : MonoBehaviour
     private void OnDestroy()
     {
         UiLevelClearedCanvas.OnLevelClearedContinueButtonPressed -= OnLevelClearedContinueButtonPressed;
-        Ground.OnBlocksDestroyed += OnBlocksDestroyed;
+        Ground.OnBlocksDestroyed -= OnBlocksDestroyed;
         Player.OnPlayerDataLoaded -= OnPlayerDataLoaded;
         UiStartCanvas.OnGameStart -= OnGameStart;
         shootButton.onClick.RemoveListener(ShootButtonClicked);

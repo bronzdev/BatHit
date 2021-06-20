@@ -38,12 +38,12 @@ public class UiDebugStuff : MonoBehaviour
         closeButton.onClick.RemoveListener(OnCloseButtonClicked);
         openButton.onClick.RemoveListener(OnOpenDebugButtonClicked);
 
-        unlockAllButton.onClick.AddListener(OnUnlockAllButtonClicked);
+        unlockAllButton.onClick.RemoveListener(OnUnlockAllButtonClicked);
         addGemsButton.onClick.RemoveListener(OnAddGemsClicked);
         resetSaveButton.onClick.RemoveListener(OnResetSaveButtonClicked);
-        showSaveButton.onClick.AddListener(OnShowSaveButtonClicked);
-        showFpsToggle.onValueChanged.AddListener(OnShowFpsToggle);
-        showDebugToggle.onValueChanged.AddListener(OnShowDebugToggle);
+        showSaveButton.onClick.RemoveListener(OnShowSaveButtonClicked);
+        showFpsToggle.onValueChanged.RemoveListener(OnShowFpsToggle);
+        showDebugToggle.onValueChanged.RemoveListener(OnShowDebugToggle);
     }
 
     private void OnUnlockAllButtonClicked()
