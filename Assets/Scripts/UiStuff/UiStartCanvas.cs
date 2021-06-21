@@ -204,7 +204,6 @@ public class UiStartCanvas : MonoBehaviour
         ToggleUiStartPanel(false);
         OnGameStart?.Invoke();
         AnalyticsManager.GameStart();
-        Player.IncrementRetries();
     }
 
     private void OnAchievementsButtonClicked()

@@ -202,6 +202,7 @@ public class UiLevelManagerCanvas : MonoBehaviour
 
     private void StartNextLevel()
     {
+        currentLevelScore = 0;
         semiLevelCounter = 0;
         RecordHighScore();
         SetCurrentLevelScore(0);
