@@ -13,6 +13,7 @@ public class GpsManager : Singleton<GpsManager>
 {
     public static Action<bool, string> OnSaveDataLoaded;
     public static Action OnSaveSuccess;
+    [SerializeField] private bool disableGPS;
     [SerializeField] private bool showDebugLogs = false;
     private bool isProcessing;
     private bool isPlayerDataLoaded = false;
@@ -22,8 +23,15 @@ public class GpsManager : Singleton<GpsManager>
 
     private void Start()
     {
-        GpsSignIn();
-        StartCoroutine(LoadLocalSaveAfterDelay());
+        if (disableGPS)
+        {
+            OnSaveDataLoaded?.Invoke(false, Player.LoadLocalData());
+        }
+        else
+        {
+            GpsSignIn();
+            StartCoroutine(LoadLocalSaveAfterDelay());
+        }
     }
 
     #region Init and Login
