@@ -34,6 +34,7 @@ public class UiLevelClearedCanvas : MonoBehaviour
     {
         if (score > Player.GetHighScore())
         {
+            Player.save.highScore = score;
             scoreText.text = "New High Score " + score;
         }
         else

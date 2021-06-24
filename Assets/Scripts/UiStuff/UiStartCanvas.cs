@@ -179,10 +179,8 @@ public class UiStartCanvas : MonoBehaviour
     {
         if (Player.IsPlayerDataNull())
         {
-            //Debug.LogError("PlayerData is null");
             return;
         }
-        //retriesText.text = "Sessions: " + Player.GetRetries();
         highScoreText.text = "High Score: " + Player.GetHighScore();
     }
     #endregion

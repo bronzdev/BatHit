@@ -16,6 +16,10 @@ public class UiLevelManagerCanvas : MonoBehaviour
     [SerializeField] private bool isTesting;
     [SerializeField] private int testingBallCount = 10;
     [SerializeField] private Image[] levelsImage;
+    [SerializeField] private Button homeButton;
+    [SerializeField] private GameObject quitPanel;
+    [SerializeField] private Button yesQuitButon;
+    [SerializeField] private Button noQuitButon;
     [SerializeField] private Button shootButton;
     [SerializeField] private TextMeshProUGUI currentLevelText;
     [SerializeField] private TextMeshProUGUI nextLevelText;
@@ -42,6 +46,10 @@ public class UiLevelManagerCanvas : MonoBehaviour
         Ground.OnBlocksDestroyed += OnBlocksDestroyed;
         Player.OnPlayerDataLoaded += OnPlayerDataLoaded;
         UiStartCanvas.OnGameStart += OnGameStart;
+        quitPanel.SetActive(false);
+        homeButton.onClick.AddListener(OnBackButtonClicked);
+        yesQuitButon.onClick.AddListener(OnYesQuitButonClicked);
+        noQuitButon.onClick.AddListener(OnNoQuitButonClicked);
         shootButton.onClick.AddListener(ShootButtonClicked);
         mainPanel = transform.GetChild(0).gameObject;
         mainPanel.SetActive(false);
@@ -57,6 +65,9 @@ public class UiLevelManagerCanvas : MonoBehaviour
         Ground.OnBlocksDestroyed -= OnBlocksDestroyed;
         Player.OnPlayerDataLoaded -= OnPlayerDataLoaded;
         UiStartCanvas.OnGameStart -= OnGameStart;
+        homeButton.onClick.RemoveListener(OnBackButtonClicked);
+        yesQuitButon.onClick.RemoveListener(OnYesQuitButonClicked);
+        noQuitButon.onClick.RemoveListener(OnNoQuitButonClicked);
         shootButton.onClick.RemoveListener(ShootButtonClicked);
     }
 
@@ -100,6 +111,21 @@ public class UiLevelManagerCanvas : MonoBehaviour
         }
     }
 
+    private void OnBackButtonClicked()
+    {
+        quitPanel.gameObject.SetActive(true);
+    }
+
+    private void OnYesQuitButonClicked()
+    {
+        quitPanel.gameObject.SetActive(false);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+    }
+
+    private void OnNoQuitButonClicked()
+    {
+        quitPanel.gameObject.SetActive(false);
+    }
 
     #region Score Stuff
     private void OnBlocksDestroyed(Transform obj)
@@ -112,14 +138,6 @@ public class UiLevelManagerCanvas : MonoBehaviour
         currentLevelScore += value;
         UiScoreAdder.OnAddScore?.Invoke(value);
         scoreText.text = "Score " + currentLevelScore;
-    }
-
-    private void RecordHighScore()
-    {
-        if (currentLevelScore > Player.GetHighScore())
-        {
-            Player.save.highScore = currentLevelScore;
-        }
     }
     #endregion
 
@@ -204,7 +222,6 @@ public class UiLevelManagerCanvas : MonoBehaviour
     {
         currentLevelScore = 0;
         semiLevelCounter = 0;
-        RecordHighScore();
         SetCurrentLevelScore(0);
         InitNewLevel();
     }
