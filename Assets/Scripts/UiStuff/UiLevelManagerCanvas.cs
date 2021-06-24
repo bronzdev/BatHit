@@ -38,7 +38,6 @@ public class UiLevelManagerCanvas : MonoBehaviour
     private int semiLevelCounter;
     private int ballsRemaining;
     private bool isSemiLevelCleared = true;
-    private int currentLevelScore;
 
     private void Awake()
     {
@@ -135,9 +134,9 @@ public class UiLevelManagerCanvas : MonoBehaviour
 
     private void SetCurrentLevelScore(int value)
     {
-        currentLevelScore += value;
+        AppData.currentScore += value;
         UiScoreAdder.OnAddScore?.Invoke(value);
-        scoreText.text = "Score " + currentLevelScore;
+        scoreText.text = "Score " + AppData.currentScore;
     }
     #endregion
 
@@ -220,7 +219,7 @@ public class UiLevelManagerCanvas : MonoBehaviour
 
     private void StartNextLevel()
     {
-        currentLevelScore = 0;
+        AppData.currentScore = 0;
         semiLevelCounter = 0;
         SetCurrentLevelScore(0);
         InitNewLevel();
@@ -285,7 +284,7 @@ public class UiLevelManagerCanvas : MonoBehaviour
         if (semiLevelCounter >= AppData.maxSemiLevel)
         {
             Player.save.currentLevel++;
-            OnLevelCleared?.Invoke(currentLevelScore);
+            OnLevelCleared?.Invoke(AppData.currentScore);
             OnHideBat?.Invoke();
             mainPanel.SetActive(false);
             Player.SaveGameUserData();
