@@ -228,6 +228,12 @@ internal static class Player
         else { return 0; }
     }
 
+    internal static int GetLevel()
+    {
+        if (save != null) { return save.currentLevel; }
+        else { return 0; }
+    }
+
     internal static void IncrementGems(int adder)
     {
         save.gems += adder;
