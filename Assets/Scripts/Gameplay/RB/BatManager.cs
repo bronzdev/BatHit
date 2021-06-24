@@ -60,6 +60,10 @@ public class BatManager : MonoBehaviour
         yield return new WaitForEndOfFrame();
         batHandleAnimation.Play();
         yield return new WaitForSeconds(animDuration);
+        if (Player.IsVibrateEnabled)
+        {
+            Vibration.Vibrate(50);
+        }
         GameObject ball = Instantiate(ballPrefab, launcherPoint.position, launcherPoint.rotation);
         ball.GetComponent<Rigidbody>().AddRelativeForce(new Vector3(0, launchVelocity * 100, 0));
         isBallShot = false;

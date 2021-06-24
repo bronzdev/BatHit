@@ -72,14 +72,14 @@ public class UiGameOverCanvas : MonoBehaviour
     private void GameOver()
     {
         mainPanel.SetActive(true);
+        score.text = "Score: " + AppData.currentScore.ToString();
+        highScore.text = "High Score: " + Player.GetHighScore().ToString();
         //buttonsPanel.SetActive(false);
         //noThanksButton.gameObject.SetActive(false);
         //watchAdButton.gameObject.SetActive(true);
-        //score.text = "Score: " + AppData.currentScore.ToString();
-        //highScore.text = "High Score: " + Player.GetHighScore().ToString();
         //mainPanel.SetActive(true);
-        //AnalyticsManager.GameOverCurrentScore();
-        //AnalyticsManager.ScreenVisit(GameScreens.GameOver);
+        AnalyticsManager.GameOverCurrentScore();
+        AnalyticsManager.ScreenVisit(GameScreens.GameOver);
         //StartCoroutine(StartCountdown());
         //watchAdButtonImage.DOFillAmount(1, AppData.watchAdCountdown);
     }
